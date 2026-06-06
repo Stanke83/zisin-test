@@ -23,7 +23,7 @@
         <a href="#specs" class="nav-link">Specs</a>
         <a href="#reviews" class="nav-link">Reviews</a>
       </div>
-      <a href="#order" class="btn btn-primary nav-cta">Buy Now — €79</a>
+      <a href="#" onclick="openCheckout('standard');return false;" class="btn btn-primary nav-cta">Buy Now — €79</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -34,7 +34,7 @@
       <a href="#how-it-works" class="nav-link">How it Works</a>
       <a href="#specs" class="nav-link">Specs</a>
       <a href="#reviews" class="nav-link">Reviews</a>
-      <a href="#order" class="btn btn-primary" style="margin-top:1rem;">Buy Now — €79</a>
+      <a href="#" onclick="openCheckout('standard');return false;" class="btn btn-primary" style="margin-top:1rem;">Buy Now — €79</a>
     </div>
   </nav>
 
@@ -52,7 +52,7 @@
         CONSOLID merges stealth luxury with essential utility.
       </p>
       <div class="hero-btns reveal delay-3">
-        <a href="#order" class="btn btn-primary btn-lg">Order Now — €79</a>
+        <a href="#" onclick="openCheckout('standard');return false;" class="btn btn-primary btn-lg">Order Now — €79</a>
         <a href="#video" class="btn btn-outline btn-lg">
           <span class="material-symbols-outlined">play_circle</span> Watch Demo
         </a>
@@ -126,7 +126,7 @@
             <li><span class="material-symbols-outlined">check_circle</span> RFID Blocking</li>
           </ul>
           <div class="product-price">€79</div>
-          <a href="#order" class="btn btn-outline w-full">Add to Cart</a>
+          <a href="#" onclick="openCheckout('standard');return false;" class="btn btn-outline w-full">Add to Cart</a>
         </div>
 
         <!-- Premium -->
@@ -154,7 +154,7 @@
             <li><span class="material-symbols-outlined">check_circle</span> RFID Blocking + Lifetime Warranty</li>
           </ul>
           <div class="product-price gold">€99</div>
-          <a href="#order" class="btn btn-primary w-full">Add to Cart</a>
+          <a href="#" onclick="openCheckout('premium');return false;" class="btn btn-primary w-full">Add to Cart</a>
         </div>
       </div>
     </div>
@@ -378,7 +378,7 @@
         <span class="overline text-center block">Ready to Carry Less?</span>
         <h2 class="cta-title">Stop Carrying Two Things.<br /><span class="gold">Carry CONSOLID.</span></h2>
         <div class="cta-price gold">€79.00</div>
-        <a href="https://zisin.website/consolid-2/" target="_blank" class="btn btn-primary btn-xl">Order Yours Now</a>
+        <a href="#" onclick="openCheckout('standard');return false;" class="btn btn-primary btn-xl">Order Yours Now</a>
         <p class="cta-micro">30-Day Risk Free Trial &nbsp;·&nbsp; Free Worldwide Shipping &nbsp;·&nbsp; Lifetime Warranty (Premium)</p>
       </div>
     </div>
@@ -439,5 +439,365 @@
   </footer>
 
   <script src="js/main.js"></script>
+
+  <!-- ===== PAYMENT MODAL ===== -->
+  <div id="checkoutModal" class="checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="checkout-modal">
+      <button class="checkout-close" onclick="closeCheckout()" aria-label="Close">&times;</button>
+
+      <div class="checkout-header">
+        <span class="checkout-secure">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Secure Checkout
+        </span>
+        <h3 id="checkoutTitle" class="checkout-title">Complete Your Order</h3>
+        <p class="checkout-subtitle" id="checkoutSubtitle">CONSOLID Standard — €79</p>
+      </div>
+
+      <!-- Product selector -->
+      <div class="checkout-variants">
+        <div class="variant-card" id="var-standard" onclick="selectVariant('standard')">
+          <div class="variant-check" id="vc-standard">✓</div>
+          <div class="variant-info">
+            <span class="variant-name">Standard</span>
+            <span class="variant-desc">Carbon Fiber · 3000mAh</span>
+          </div>
+          <span class="variant-price">€79</span>
+        </div>
+        <div class="variant-card" id="var-premium" onclick="selectVariant('premium')">
+          <div class="variant-check hidden" id="vc-premium">✓</div>
+          <div class="variant-info">
+            <span class="variant-name">Premium <span class="badge-best">BEST VALUE</span></span>
+            <span class="variant-desc">Titanium Grade 5 · 5000mAh</span>
+          </div>
+          <span class="variant-price gold">€99</span>
+        </div>
+      </div>
+
+      <!-- Payment methods -->
+      <p class="checkout-pay-label">Choose payment method:</p>
+      <div class="checkout-methods">
+
+        <!-- Stripe (cards worldwide) -->
+        <a id="btn-stripe" href="#" target="_blank" rel="noopener" class="pay-btn pay-stripe" onclick="handleStripeClick(event)">
+          <svg viewBox="0 0 60 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="stripe-logo">
+            <path d="M6.77 10.16c0-.52.43-.72.96-.72a6.27 6.27 0 0 1 2.77.72V7.62A7.37 7.37 0 0 0 7.72 7C5.18 7 3.5 8.34 3.5 10.28c0 3.07 4.22 2.58 4.22 3.9 0 .62-.54.82-1.1.82a7.04 7.04 0 0 1-3.1-.82v2.6c1.05.45 2.1.64 3.1.64 2.6 0 4.38-1.28 4.38-3.24-.01-3.32-4.23-2.72-4.23-4.02zm7.63-3.8L11.7 6.9l-.01 8.74 2.7-.01V10.5c.64-.83 1.72-.69 2.06-.57V7.47c-.37-.13-1.72-.37-2.05.89zm4.2.96l-2.72.58v7.74h2.72V7.32zm-1.36-4.3c-.87 0-1.57.7-1.57 1.57 0 .87.7 1.57 1.57 1.57.87 0 1.57-.7 1.57-1.57 0-.87-.7-1.57-1.57-1.57zM22.68 5l-2.65.56v2.2l-1.26.27v2.1l1.26-.01v3.82c0 2.1 1.4 2.83 3.35 2.83.72 0 1.38-.1 1.97-.27v-2.2c-.38.12-.7.14-1.1.14-.72 0-1.57-.24-1.57-1.43v-2.9h2.67V7.75h-2.67V5zm8.44 2.47c-2.9 0-4.6 2.1-4.6 4.63 0 3.04 1.94 4.63 4.92 4.63 1.44 0 2.52-.33 3.37-.87V13.4c-.84.53-1.78.79-2.83.79-1.3 0-2.3-.48-2.46-1.62H35c.02-.23.04-.62.04-.86 0-2.5-1.34-4.24-3.92-4.24zm-1.57 3.73c.14-1.03.72-1.74 1.6-1.74.95 0 1.44.7 1.5 1.74h-3.1zm10.33-3.73c-1.06 0-1.74.5-2.12 1.17l-.14-1.05h-2.4l.01 10.1h2.7v-5.27c.38-.5.97-.8 1.64-.8.97 0 1.44.6 1.44 1.7v4.37H44v-4.76c0-2.62-1.38-3.46-3.12-3.46z" fill="white"/>
+          </svg>
+          <span>Pay by Card</span>
+          <span class="pay-badge">Visa · Mastercard · Amex</span>
+        </a>
+
+        <!-- PayPal -->
+        <a id="btn-paypal" href="#" target="_blank" rel="noopener" class="pay-btn pay-paypal" onclick="handlePayPalClick(event)">
+          <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg" class="paypal-logo">
+            <text x="0" y="22" font-family="Arial Black, sans-serif" font-size="20" fill="#003087" font-weight="900">Pay</text>
+            <text x="36" y="22" font-family="Arial Black, sans-serif" font-size="20" fill="#009cde" font-weight="900">Pal</text>
+          </svg>
+          <span class="pay-badge paypal-badge">PayPal · 200+ countries</span>
+        </a>
+
+      </div>
+
+      <!-- Setup notice for Stripe -->
+      <div id="stripeSetupNotice" class="setup-notice">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16.01"/></svg>
+        <span><strong>Setup needed:</strong> Replace the Stripe Payment Link in the HTML with your actual link from <a href="https://dashboard.stripe.com/payment-links" target="_blank">Stripe Dashboard</a>. Stripe is free to set up — you only pay a small fee per transaction (~1.5% + €0.25 in Europe).</span>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="checkout-trust">
+        <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 256-bit SSL</span>
+        <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Cards worldwide</span>
+        <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="2"/></svg> 30-day returns</span>
+        <span>🇷🇸 🇨🇭 🌍 Global</span>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* ===== CHECKOUT MODAL STYLES ===== */
+    .checkout-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(6px);
+    }
+    .checkout-overlay.active {
+      display: flex;
+    }
+    .checkout-modal {
+      background: #111114;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity:0; transform: translateY(24px) scale(0.97); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
+    }
+    .checkout-close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      color: #aaa;
+      font-size: 1.4rem;
+      line-height: 1;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .checkout-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .checkout-header { margin-bottom: 1.25rem; }
+    .checkout-secure {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #4ade80;
+      background: rgba(74,222,128,0.08);
+      border: 1px solid rgba(74,222,128,0.2);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+    .checkout-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 0.25rem;
+    }
+    .checkout-subtitle {
+      font-size: 0.85rem;
+      color: #888;
+      margin: 0;
+    }
+
+    /* Variants */
+    .checkout-variants {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .variant-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .variant-card:hover { border-color: rgba(255,255,255,0.3); }
+    .variant-card.selected { border-color: var(--gold, #C9A84C); background: rgba(201,168,76,0.06); }
+    .variant-check {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--gold, #C9A84C);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .variant-check.hidden { background: rgba(255,255,255,0.1); color: transparent; }
+    .variant-info { flex: 1; }
+    .variant-name { display: block; font-size: 0.9rem; font-weight: 600; color: #fff; }
+    .variant-desc { display: block; font-size: 0.75rem; color: #888; margin-top: 1px; }
+    .variant-price { font-size: 1rem; font-weight: 700; color: #fff; }
+    .variant-price.gold { color: var(--gold, #C9A84C); }
+    .badge-best {
+      font-size: 0.6rem;
+      background: var(--gold, #C9A84C);
+      color: #000;
+      padding: 1px 6px;
+      border-radius: 100px;
+      vertical-align: middle;
+      margin-left: 5px;
+      font-weight: 700;
+    }
+
+    /* Payment methods */
+    .checkout-pay-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin: 0 0 0.6rem;
+    }
+    .checkout-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .pay-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-radius: 12px;
+      padding: 0.85rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      cursor: pointer;
+    }
+    .pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .pay-btn:active { transform: translateY(0); }
+    .pay-stripe {
+      background: #635bff;
+      color: #fff;
+    }
+    .pay-paypal {
+      background: #ffc439;
+      color: #003087;
+    }
+    .stripe-logo { height: 18px; flex-shrink: 0; }
+    .paypal-logo { height: 20px; flex-shrink: 0; }
+    .pay-badge {
+      font-size: 0.7rem;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-left: auto;
+    }
+    .paypal-badge { color: #003087; }
+
+    /* Setup notice */
+    .setup-notice {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      background: rgba(255,193,7,0.08);
+      border: 1px solid rgba(255,193,7,0.25);
+      border-radius: 10px;
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .setup-notice svg { flex-shrink: 0; color: #ffc107; margin-top: 1px; }
+    .setup-notice a { color: #ffc107; }
+    .setup-notice.hidden { display: none; }
+
+    /* Trust bar */
+    .checkout-trust {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #666;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .checkout-trust span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
+
+  <script>
+    // ===== PAYMENT LINKS — REPLACE THESE WITH YOUR ACTUAL STRIPE PAYMENT LINKS =====
+    // How to create: Go to https://dashboard.stripe.com/payment-links → New → set price → copy link
+    const STRIPE_LINKS = {
+      standard: 'https://buy.stripe.com/YOUR_STANDARD_LINK',  // ← Replace this
+      premium:  'https://buy.stripe.com/YOUR_PREMIUM_LINK'    // ← Replace this
+    };
+
+    // PayPal.Me link — create free at https://www.paypal.com/paypalme
+    const PAYPAL_LINKS = {
+      standard: 'https://www.paypal.com/paypalme/YOUR_USERNAME/79EUR',  // ← Replace this
+      premium:  'https://www.paypal.com/paypalme/YOUR_USERNAME/99EUR'   // ← Replace this
+    };
+
+    let currentVariant = 'standard';
+    const PRICES = { standard: '€79', premium: '€99' };
+    const NAMES  = { standard: 'CONSOLID Standard', premium: 'CONSOLID Premium' };
+
+    function openCheckout(variant) {
+      currentVariant = variant || 'standard';
+      selectVariant(currentVariant, false);
+      document.getElementById('checkoutModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function selectVariant(variant, updateLinks) {
+      currentVariant = variant;
+
+      // Update UI
+      document.getElementById('var-standard').classList.toggle('selected', variant === 'standard');
+      document.getElementById('var-premium').classList.toggle('selected', variant === 'premium');
+      document.getElementById('vc-standard').classList.toggle('hidden', variant !== 'standard');
+      document.getElementById('vc-premium').classList.toggle('hidden', variant !== 'premium');
+      document.getElementById('checkoutSubtitle').textContent = NAMES[variant] + ' — ' + PRICES[variant];
+
+      // Update payment links
+      updatePaymentLinks();
+    }
+
+    function updatePaymentLinks() {
+      const stripeLink  = STRIPE_LINKS[currentVariant];
+      const paypalLink  = PAYPAL_LINKS[currentVariant];
+
+      document.getElementById('btn-stripe').href  = stripeLink;
+      document.getElementById('btn-paypal').href   = paypalLink;
+
+      // Show setup notice if placeholder links are still there
+      const isPlaceholder = stripeLink.includes('YOUR_');
+      document.getElementById('stripeSetupNotice').classList.toggle('hidden', !isPlaceholder);
+    }
+
+    function handleStripeClick(e) {
+      if (STRIPE_LINKS[currentVariant].includes('YOUR_')) {
+        e.preventDefault();
+        alert('⚙️ Setup needed: Please replace the Stripe Payment Link in the HTML file.\n\n1. Go to dashboard.stripe.com\n2. Create a Payment Link for €79 (Standard) or €99 (Premium)\n3. Replace YOUR_STANDARD_LINK / YOUR_PREMIUM_LINK in index.html');
+      }
+    }
+
+    function handlePayPalClick(e) {
+      if (PAYPAL_LINKS[currentVariant].includes('YOUR_')) {
+        e.preventDefault();
+        alert('⚙️ Setup needed: Please replace the PayPal.Me link in the HTML file.\n\n1. Go to paypal.com/paypalme\n2. Create your PayPal.Me profile\n3. Replace YOUR_USERNAME in index.html');
+      }
+    }
+
+    // Close on backdrop click
+    document.getElementById('checkoutModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCheckout();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeCheckout();
+    });
+
+    // Init
+    updatePaymentLinks();
+  </script>
+
 </body>
 </html>
