@@ -725,8 +725,8 @@
 
     // PayPal.Me link — create free at https://www.paypal.com/paypalme
     const PAYPAL_LINKS = {
-      standard: 'https://www.paypal.com/paypalme/YOUR_USERNAME/79EUR',  // ← Replace this
-      premium:  'https://www.paypal.com/paypalme/YOUR_USERNAME/99EUR'   // ← Replace this
+      standard: 'https://www.paypal.com/paypalme/Stanke83/79',  // ← Replace this
+      premium:  'https://www.paypal.com/paypalme/Stanke83/99'   // ← Replace this
     };
 
     let currentVariant = 'standard';
@@ -779,7 +779,7 @@
     }
 
     function handlePayPalClick(e) {
-      if (PAYPAL_LINKS[currentVariant].includes('YOUR_')) {
+      if (false) {
         e.preventDefault();
         alert('⚙️ Setup needed: Please replace the PayPal.Me link in the HTML file.\n\n1. Go to paypal.com/paypalme\n2. Create your PayPal.Me profile\n3. Replace YOUR_USERNAME in index.html');
       }
