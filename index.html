@@ -478,15 +478,6 @@
       <p class="checkout-pay-label">Choose payment method:</p>
       <div class="checkout-methods">
 
-        <!-- Stripe (cards worldwide) -->
-        <a id="btn-stripe" href="#" target="_blank" rel="noopener" class="pay-btn pay-stripe" onclick="handleStripeClick(event)">
-          <svg viewBox="0 0 60 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="stripe-logo">
-            <path d="M6.77 10.16c0-.52.43-.72.96-.72a6.27 6.27 0 0 1 2.77.72V7.62A7.37 7.37 0 0 0 7.72 7C5.18 7 3.5 8.34 3.5 10.28c0 3.07 4.22 2.58 4.22 3.9 0 .62-.54.82-1.1.82a7.04 7.04 0 0 1-3.1-.82v2.6c1.05.45 2.1.64 3.1.64 2.6 0 4.38-1.28 4.38-3.24-.01-3.32-4.23-2.72-4.23-4.02zm7.63-3.8L11.7 6.9l-.01 8.74 2.7-.01V10.5c.64-.83 1.72-.69 2.06-.57V7.47c-.37-.13-1.72-.37-2.05.89zm4.2.96l-2.72.58v7.74h2.72V7.32zm-1.36-4.3c-.87 0-1.57.7-1.57 1.57 0 .87.7 1.57 1.57 1.57.87 0 1.57-.7 1.57-1.57 0-.87-.7-1.57-1.57-1.57zM22.68 5l-2.65.56v2.2l-1.26.27v2.1l1.26-.01v3.82c0 2.1 1.4 2.83 3.35 2.83.72 0 1.38-.1 1.97-.27v-2.2c-.38.12-.7.14-1.1.14-.72 0-1.57-.24-1.57-1.43v-2.9h2.67V7.75h-2.67V5zm8.44 2.47c-2.9 0-4.6 2.1-4.6 4.63 0 3.04 1.94 4.63 4.92 4.63 1.44 0 2.52-.33 3.37-.87V13.4c-.84.53-1.78.79-2.83.79-1.3 0-2.3-.48-2.46-1.62H35c.02-.23.04-.62.04-.86 0-2.5-1.34-4.24-3.92-4.24zm-1.57 3.73c.14-1.03.72-1.74 1.6-1.74.95 0 1.44.7 1.5 1.74h-3.1zm10.33-3.73c-1.06 0-1.74.5-2.12 1.17l-.14-1.05h-2.4l.01 10.1h2.7v-5.27c.38-.5.97-.8 1.64-.8.97 0 1.44.6 1.44 1.7v4.37H44v-4.76c0-2.62-1.38-3.46-3.12-3.46z" fill="white"/>
-          </svg>
-          <span>Pay by Card</span>
-          <span class="pay-badge">Visa · Mastercard · Amex</span>
-        </a>
-
         <!-- PayPal -->
         <a id="btn-paypal" href="#" target="_blank" rel="noopener" class="pay-btn pay-paypal" onclick="handlePayPalClick(event)">
           <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg" class="paypal-logo">
@@ -496,12 +487,6 @@
           <span class="pay-badge paypal-badge">PayPal · 200+ countries</span>
         </a>
 
-      </div>
-
-      <!-- Setup notice for Stripe -->
-      <div id="stripeSetupNotice" class="setup-notice">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16.01"/></svg>
-        <span><strong>Setup needed:</strong> Replace the Stripe Payment Link in the HTML with your actual link from <a href="https://dashboard.stripe.com/payment-links" target="_blank">Stripe Dashboard</a>. Stripe is free to set up — you only pay a small fee per transaction (~1.5% + €0.25 in Europe).</span>
       </div>
 
       <!-- Trust badges -->
@@ -661,15 +646,10 @@
     }
     .pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
     .pay-btn:active { transform: translateY(0); }
-    .pay-stripe {
-      background: #635bff;
-      color: #fff;
-    }
     .pay-paypal {
       background: #ffc439;
       color: #003087;
     }
-    .stripe-logo { height: 18px; flex-shrink: 0; }
     .paypal-logo { height: 20px; flex-shrink: 0; }
     .pay-badge {
       font-size: 0.7rem;
@@ -716,13 +696,6 @@
   </style>
 
   <script>
-    // ===== PAYMENT LINKS — REPLACE THESE WITH YOUR ACTUAL STRIPE PAYMENT LINKS =====
-    // How to create: Go to https://dashboard.stripe.com/payment-links → New → set price → copy link
-    const STRIPE_LINKS = {
-      standard: 'https://buy.stripe.com/YOUR_STANDARD_LINK',  // ← Replace this
-      premium:  'https://buy.stripe.com/YOUR_PREMIUM_LINK'    // ← Replace this
-    };
-
     // PayPal.Me link — create free at https://www.paypal.com/paypalme
     const PAYPAL_LINKS = {
       standard: 'https://www.paypal.com/paypalme/Stanke83/79',  // ← Replace this
@@ -760,22 +733,11 @@
     }
 
     function updatePaymentLinks() {
-      const stripeLink  = STRIPE_LINKS[currentVariant];
       const paypalLink  = PAYPAL_LINKS[currentVariant];
-
-      document.getElementById('btn-stripe').href  = stripeLink;
       document.getElementById('btn-paypal').href   = paypalLink;
 
       // Show setup notice if placeholder links are still there
-      const isPlaceholder = stripeLink.includes('YOUR_');
-      document.getElementById('stripeSetupNotice').classList.toggle('hidden', !isPlaceholder);
     }
-
-    function handleStripeClick(e) {
-      if (STRIPE_LINKS[currentVariant].includes('YOUR_')) {
-        e.preventDefault();
-        alert('⚙️ Setup needed: Please replace the Stripe Payment Link in the HTML file.\n\n1. Go to dashboard.stripe.com\n2. Create a Payment Link for €79 (Standard) or €99 (Premium)\n3. Replace YOUR_STANDARD_LINK / YOUR_PREMIUM_LINK in index.html');
-      }
     }
 
     function handlePayPalClick(e) {
